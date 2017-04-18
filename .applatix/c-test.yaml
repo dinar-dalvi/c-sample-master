@@ -1,0 +1,19 @@
+---
+type: service_template
+subtype: container
+name: c-test
+description: test example
+container:
+  resources:
+    mem_mib: 256
+    cpu_cores: 0.1
+    disk_gb: 10
+  image: "dinardalvi/alpine-c:latest"
+  docker_options: ""
+  command: "sh -c 'cd /src && ls -ltr && ./hello"
+inputs:
+  artifacts:
+  - from: "%%binary%%"
+    path: "/src"
+  parameters:
+    binary:

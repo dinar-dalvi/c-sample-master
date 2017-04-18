@@ -1,0 +1,22 @@
+---
+name: C check and build
+type: service_template
+subtype: workflow
+description: c example workflow that does checkout and build
+inputs:
+  parameters:
+    commit:
+      default: "%%session.commit%%"
+    repo:
+      default: "%%session.repo%%"
+steps:
+- checkout:
+    template: axscm-checkout
+- build:
+    template: golang-example-base
+    parameters:
+      CMD: "sh -c 'cd /src && go build main.go'"
+      code_artifact: "%%steps.checkout.code%%"
+labels:
+  release: 1.0.2
+  milestone: m6

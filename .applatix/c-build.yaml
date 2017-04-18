@@ -1,0 +1,25 @@
+---
+type: service_template
+subtype: container
+name: c-build
+description: build example
+container:
+  resources:
+    mem_mib: 256
+    cpu_cores: 0.1
+    disk_gb: 10
+  image: "dinardalvi/alpine-c:latest"
+  docker_options: ""
+  command: "sh -c 'cd /src && ls -ltr && gcc -o hello hello.c && sh createDocker.bash && ls -ltr && docker build -t dinarapplatix/alpine-compiled:v1 . && docker images && docker login -u dinarapplatix -p Test1234!@#$ && docker push dinarapplatix/alpine-compiled:v1'"
+inputs:
+  artifacts:
+  - from: "%%code%%"
+    path: "/src"
+  parameters:
+    code:
+outputs:
+  artifacts:
+    binary:
+      path: "/src"
+labels:
+  "ax_ea_docker_enable": "{ \"graph-storage-name\": \"devopsbuildstorage\", \"graph-storage-size\": \"10Gi\" }"

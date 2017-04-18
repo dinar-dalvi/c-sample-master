@@ -1,0 +1,26 @@
+---
+type: service_template
+subtype: container
+name: c-docker-step
+description: This is the base template for building DevOps component.
+container:
+  resources:
+    mem_mib: 1024
+    cpu_cores: 0.3
+  image: dinardalvi/apline-c:latest
+  docker_options:
+  command: sh -c 'docker login -u dinarapplatix -p  hub.docker.com && /src/build/build_devops.py -n %%namespace%% -v %%version%%'
+inputs:
+  parameters:
+    namespace:
+    version:
+  artifacts:
+  - from: "%%service.checkout.code%%"
+    path: "/src"
+  parameters:
+    checkout:
+    namespace:
+    version:
+outputs:
+labels:
+    "ax_ea_docker_enable": "{ \"graph-storage-name\": \"devopsbuildstorage\", \"graph-storage-size\": \"10Gi\" }"
